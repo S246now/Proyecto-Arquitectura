@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Listar Personas</title>
+    </h:head>
+    <h:body>
+            <p:fieldset legend="DEPARTAMENTO DE TECNOLOGÍAS DE LA INFORMACIÓN">
+                <h:panelGrid columns="3">
+                    <p:outputLabel value="Tecnologías de la Información" />
+                    <p:outputLabel/>
+                    <p:outputLabel value="Fecha: 01-02-2023" />
+
+                    <p:outputLabel value="Requerimiento de Compra" />
+                    <p:outputLabel/>
+                    <p:outputLabel value="Página: 1 de 2" /> 
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="SOLICITUD DE COMPRA" id="pgDatos">
+                <p:fieldset>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="txtNumero" value ="1. Número:"/>
+                        <p:outputLabel id="txtNumero" value ="MANAMER-RFC-2022-____24_-"/>
+                        <p:outputLabel/>
+
+                        <p:outputLabel for="txtNombre" value ="2. Nombre Solicitante: "/>
+                        <p:inputText id="txtNombre" value="#{solicitanteController.persona.cedula}" required="true"/>
+                        <p:message for="txtNombre"/>
+
+                        <p:outputLabel for="txtCargo" value ="3. Cargo: "/>
+                        <p:inputText id="txtCargo" value="#{solicitanteController.persona.nombre}" required="true"/>
+                        <p:message for="txtCargo"/>
+
+                        <p:outputLabel for="txtDepartamento" value ="4. Departamento: "/>
+                        <p:inputText id="txtDepartamento" value="#{solicitanteController.persona.celular}" required="true"/>
+                        <p:message for="txtDepartamento"/>
+
+                        <p:outputLabel for="txtAprobador" value ="5. Nombre de quién Aprueba la Solicitud: "/>
+                        <p:selectOneMenu id="txtAprobador" value="#{aprobadorController.personaSeleccionada}" var="a">
+                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                            <f:selectItems value="#{aprobadorController.personas}" var="aprobador" itemLabel="#{personaSeleccionada.nombre}" itemValue="#{personaSeleccionada}"/>
+                            <p:column>
+                                #{a.nombre}
+                            </p:column>
+                        </p:selectOneMenu>
+                        <p:message for="txtAprobador"/>
+
+                        <p:outputLabel for="txtCargoAprobador" value ="6. Cargo del Aprobador: "/>
+                        <p:selectOneMenu id="txtCargoAprobador" value="#{aprobadorController.aprobadorSeleccionada}" var="a">
+                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                            <f:selectItems value="#{aprobadorController.aprobadores}" var="aprobador" itemLabel="#{aprobadorSeleccionada.cargo}" itemValue="#{aprobadorSeleccionada}"/>
+                            <p:column>
+                                #{a.cargo}
+                            </p:column>
+                            <!--<f:facet name="footer">
+                                 <p:separator />
+                                 <h:outputText value="#{aprobadorController.aprobadores.size()} aprobadores disponibles" style="font-weight:bold;"/>
+                            </f:facet>-->
+                        </p:selectOneMenu>
+                        <p:message for="txtCargoAprobador"/>
+
+                        <p:outputLabel for="txtPresupuesto" value ="7. Presupuesto: "/>
+                        <p:inputText id="txtPresupuesto" value="#{solicitanteController.solicitante.correo}" required="true"/>
+                        <p:message for="txtPresupuesto"/>
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset legend="8. Justificación">
+                    <p:inputTextarea id="txtAreaJustificacion" value="#{solicitudController.solicitud.justificacion}" cols="70" />
+                </p:fieldset>
+
+                <p:fieldset legend="9. Prioridad">
+                    <p:outputLabel for="crPrioridad" value="prioridad"/>
+                    <h:panelGrid columns="3">
+                        <p:selectOneRadio id="crPrioridad" value="#{solicitudController.solicitud.prioridad}" layout="pageDirection">
+                            <f:selectItem itemLabel="Alta" itemValue="A" />
+                            <f:selectItem itemLabel="Media" itemValue="M" />
+                            <f:selectItem itemLabel="Baja" itemValue="B" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset legend="10. Detalle del Requerimiento">
+                    <h:panelGrid columns="4">
+                            <p:outputLabel for="txtN" value ="#"/>
+                        <p:outputLabel for="txtDescripcion" value ="Descripcion"/>
+                        <p:outputLabel for="txtCantidad" value ="Cantidad"/>
+                        <p:outputLabel for="txtPrecioReferencial" value ="Precio Referencial"/>
+
+                        <p:outputLabel id="txtN" value ="1"/>
+                        <p:inputText id="txtDescripcion" value="#{solicitudController.requerimiento.descripcion}"/>
+                        <p:inputText id="txtCantidad" value="#{solicitudController.solicitudrequerimiento.cantidad}"/>
+                        <p:inputText id="txtPrecioReferencial" value="#{solicitudController.solicitudrequerimiento.precioReferencial}"/>
+
+                        <p:outputLabel id="txtN2" value ="2"/>
+                        <p:inputText id="txtDescripcion2" value="#{solicitudController.requerimiento.descripcion}"/>
+                        <p:inputText id="txtCantidad2" value="#{solicitudController.solicitudrequerimiento.cantidad}"/>
+                        <p:inputText id="txtPrecioReferencial2" value="#{solicitudController.solicitudrequerimiento.precioReferencial}"/>
+
+                        <p:outputLabel id="txtN3" value ="3"/>
+                        <p:inputText id="txtDescripcion3" value="#{solicitudController.requerimiento.descripcion}"/>
+                        <p:inputText id="txtCantidad3" value="#{solicitudController.solicitudrequerimiento.cantidad}"/>
+                        <p:inputText id="txtPrecioReferencial3" value="#{solicitudController.solicitudrequerimiento.precioReferencial}"/>
+                    </h:panelGrid>
+                </p:fieldset>
+                
+                <h:commandButton value="Enviar" action="index" />
+            </p:fieldset>
+    </h:body>
+</html>

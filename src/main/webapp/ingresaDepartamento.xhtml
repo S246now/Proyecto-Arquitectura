@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Listar Personas</title>
+    </h:head>
+    <h:body>
+
+        <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
+            <f:facet name="start">
+                <h:graphicImage library="images" name="ajaxloading.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+
+        <h:panelGrid columns="2"> 
+            <h:form prependId="false" id="form">
+
+            <p:growl id="messages" showDetail="true" />
+            <p:messages />
+
+            <p:dataTable id="tbPersonas" var="persona" value="#{solicitanteController.personasList}" editable="true" 
+                rowKey="#{persona.idPersona}"
+                selection="#{solicitanteController.solicitante}" 
+                selectionMode="single">
+
+                <f:facet name="header">  
+                    Lista de Personas  
+                </f:facet>
+
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{persona.nombre}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{persona.nombre}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Cédula">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{persona.cedula}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{persona.cedula}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Celular">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{persona.celular}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{persona.celular}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column headerText="Opciones" style="width:50px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:ajax event="rowEdit" listener="#{solicitanteController.editListenerPersona}">
+                </p:ajax>
+            </p:dataTable>
+            <br/>
+            <p:dataTable id="tbSolicitantes" var="solicitante" value="#{solicitanteController.solicitantesList}" editable="true" 
+                rowKey="#{solicitante.idPersona}"
+                selection="#{solicitanteController.solicitante}" 
+                selectionMode="single">
+
+                <p:column headerText="Cargo">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{solicitante.cargo}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{solicitante.cargo}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Departamento">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{solicitante.departamento}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{solicitante.departamento}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Correo">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{solicitante.correo}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{solicitante.correo}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton value="Regresar" action="index" />
+                    <p:spacer height="5px;"/>
+                    <p:commandButton value="Agregar" actionListener="#{solicitanteController.reiniciarEmpleado}" oncomplete="PF('empleadoDialogo').show();" update="tbPersonas,tbSolicitantes">
+                        <p:ajax event="dialogReturn" update="tbSolicitantes"/>
+                    </p:commandButton>
+                </f:facet>
+
+                <p:column headerText="Opciones" style="width:50px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:ajax event="rowEdit" listener="#{solicitanteController.editListenerSolicitante}">
+                </p:ajax>
+            </p:dataTable>
+
+        </h:form>
+        </h:panelGrid>
+
+        <!--Agregar Persona-->
+        <h:form id="dialogoForm" prependId="false">
+            <p:dialog header="Agregar Empleado" widgetVar="empleadoDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="empleadoDetalle" style="text-align:center;">
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+                        <h:outputText value="Cédula:" />
+                        <h:inputText value="#{solicitanteController.persona.cedula}" />
+
+                        <h:outputText value="Nombre y Apellido:" />
+                        <h:inputText value="#{solicitanteController.persona.nombre}" />
+
+                        <h:outputText value="Celular:" />
+                        <h:inputText value="#{solicitanteController.persona.celular}" />
+
+                        <h:outputText value="Correo:" />
+                        <h:inputText value="#{solicitanteController.solicitante.correo}" />
+
+                        <h:outputText value="Cargo:" />
+                        <h:inputText value="#{solicitanteController.solicitante.cargo}" />
+                        
+                        <h:outputText value="Departamento:" />
+                        <h:inputText value="#{solicitanteController.solicitante.departamento}" />
+                        
+                        <f:facet name="footer">
+                            <h:commandButton value="Agregar" actionListener="#{solicitanteController.agregarEmpleado}" />
+                        </f:facet>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </h:body>
+
+</html>
